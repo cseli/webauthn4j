@@ -16,6 +16,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * {@link com.webauthn4j.data.extension.client.AuthenticationExtensionsClientInputs} is a map containing the client extension input values for
@@ -183,6 +184,21 @@ public class AuthenticationExtensionsClientInputs<T extends ExtensionClientInput
     @Override
     public int hashCode() {
         return Objects.hash(appid, appidExclude, uvm, credProps, credentialProtectionPolicy, enforceCredentialProtectionPolicy, unknowns, extensions);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("AuthenticationExtensionsAuthenticatorInputs(");
+        String entries = getExtensions().values().stream().map(t -> String.format("%s=%s", t.getIdentifier(), t)).collect(Collectors.joining(", "));
+        builder.append(entries);
+        String unknownsStr = getUnknowns().entrySet().stream().map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue())).collect(Collectors.joining(", "));
+        if(!unknownsStr.isEmpty()){
+            builder.append(", ");
+            builder.append(unknownsStr);
+        }
+        builder.append(")");
+        return builder.toString();
     }
 
     public static class BuilderForRegistration {

@@ -31,6 +31,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * {@link AuthenticationExtensionsAuthenticatorInputs} containing the authenticator extension input values for
@@ -132,6 +133,21 @@ public class AuthenticationExtensionsAuthenticatorInputs<T extends ExtensionAuth
                 Objects.equals(credProtect, that.credProtect) &&
                 Objects.equals(unknowns, that.unknowns) &&
                 Objects.equals(extensions, that.extensions);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("AuthenticationExtensionsAuthenticatorInputs(");
+        String entries = getExtensions().values().stream().map(t -> String.format("%s=%s", t.getIdentifier(), t)).collect(Collectors.joining(", "));
+        builder.append(entries);
+        String unknownsStr = getUnknowns().entrySet().stream().map(entry -> String.format("%s=%s", entry.getKey(), entry.getValue())).collect(Collectors.joining(", "));
+        if(!unknownsStr.isEmpty()){
+            builder.append(", ");
+            builder.append(unknownsStr);
+        }
+        builder.append(")");
+        return builder.toString();
     }
 
     @Override
