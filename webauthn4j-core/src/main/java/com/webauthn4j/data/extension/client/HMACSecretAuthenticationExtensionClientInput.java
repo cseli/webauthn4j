@@ -36,6 +36,7 @@ public class HMACSecretAuthenticationExtensionClientInput extends SingleValueExt
         return ID;
     }
 
+    @Override
     public @Nullable HMACGetSecretInput getValue(@NonNull String key) {
         if (!key.equals(KEY_HMAC_GET_SECRET)) {
             throw new IllegalArgumentException(String.format("%s is the only valid key.", KEY_HMAC_GET_SECRET));

@@ -36,6 +36,7 @@ public class HMACSecretRegistrationExtensionClientInput extends SingleValueExten
         return ID;
     }
 
+    @Override
     public @Nullable Boolean getValue(@NonNull String key) {
         if (!key.equals(KEY_HMAC_CREATE_SECRET)) {
             throw new IllegalArgumentException(String.format("%s is the only valid key.", KEY_HMAC_CREATE_SECRET));
