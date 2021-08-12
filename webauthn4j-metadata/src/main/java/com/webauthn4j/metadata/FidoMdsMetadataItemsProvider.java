@@ -43,6 +43,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.InvalidAlgorithmParameterException;
+import java.security.MessageDigest;
 import java.security.cert.*;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -222,7 +223,7 @@ public class FidoMdsMetadataItemsProvider implements MetadataItemsProvider {
         String metadataStatementBase64url = httpClient.fetch(uriWithToken);
         String metadataStatementStr = new String(Base64UrlUtil.decode(metadataStatementBase64url));
         byte[] hash = MessageDigestUtil.createSHA256().digest(metadataStatementBase64url.getBytes(StandardCharsets.UTF_8));
-        if (!Arrays.equals(hash, expectedHash)) {
+        if (!MessageDigest.isEqual(hash, expectedHash)) {
             throw new MDSException("Hash of metadataStatement doesn't match");
         }
         MetadataStatement metadataStatement = jsonConverter.readValue(metadataStatementStr, MetadataStatement.class);

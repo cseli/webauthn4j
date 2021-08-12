@@ -127,7 +127,7 @@ public class TPMAttestationStatementValidator extends AbstractStatementValidator
         algJcaName = getAlgJcaName(hashAlg);
 
         byte[] pubAreaDigest = MessageDigestUtil.createMessageDigest(algJcaName).digest(pubArea.getBytes());
-        if (!Arrays.equals(pubAreaDigest, certifyInfo.getName().getDigest())) {
+        if (!MessageDigest.isEqual(pubAreaDigest, certifyInfo.getName().getDigest())) {
             throw new BadAttestationStatementException("hash of `attested` doesn't match with name field of certifyInfo");
         }
 

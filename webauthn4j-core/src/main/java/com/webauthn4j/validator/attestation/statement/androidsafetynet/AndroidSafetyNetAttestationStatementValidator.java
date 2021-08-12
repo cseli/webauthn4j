@@ -31,9 +31,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class AndroidSafetyNetAttestationStatementValidator extends AbstractStatementValidator<AndroidSafetyNetAttestationStatement> {
@@ -162,7 +162,7 @@ public class AndroidSafetyNetAttestationStatementValidator extends AbstractState
         ByteBuffer buffer = ByteBuffer.allocate(authenticatorData.length + clientDataHash.length);
         byte[] data = buffer.put(authenticatorData).put(clientDataHash).array();
         byte[] hash = MessageDigestUtil.createSHA256().digest(data);
-        if (!Arrays.equals(hash, Base64Util.decode(nonce))) {
+        if (!MessageDigest.isEqual(hash, Base64Util.decode(nonce))) {
             throw new BadAttestationStatementException("Nonce in the Android safetynet response doesn't match.");
         }
     }
