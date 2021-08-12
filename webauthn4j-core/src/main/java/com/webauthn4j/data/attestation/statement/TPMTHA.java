@@ -23,6 +23,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -57,7 +58,7 @@ public class TPMTHA implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         TPMTHA tpmtha = (TPMTHA) o;
         return hashAlg == tpmtha.hashAlg &&
-                Arrays.equals(digest, tpmtha.digest);
+                MessageDigest.isEqual(digest, tpmtha.digest);
     }
 
     @Override
